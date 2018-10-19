@@ -13,13 +13,38 @@
 
 # Подсказка: воспользоваться методом .format()
 
+fruit = ["яблоко", "банан", "киви", "арбуз"]
+shift = len(max(fruit, key=len))
+
+for position in range(len(fruit)):
+    print('{}. '.format(position+1), '{:>{}}'.format(fruit[position], shift))
 
 # Задача-2:
 # Даны два произвольные списка.
 # Удалите из первого списка элементы, присутствующие во втором списке.
+
+list1 = [1, 2, 3, 4, 5, 3, 7, 8, 2]
+
+list2 = [3, 4]
+
+for element in list2:
+    while(element in list1):
+        list1.remove(element)
+
+print(list1)
 
 
 # Задача-3:
 # Дан произвольный список из целых чисел.
 # Получите НОВЫЙ список из элементов исходного, выполнив следующие условия:
 # если элемент кратен двум, то разделить его на 4, если не кратен, то умножить на два.
+
+int_list = [1, 2, 3, 4, 5, 3, 7, 8, 2]
+
+for ind in range(len(int_list)):
+    if (int_list[ind] % 2):
+        int_list[ind] *= 2
+    else:
+        int_list[ind] /= 4
+
+print(int_list)
