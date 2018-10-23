@@ -5,7 +5,14 @@
 # Для решения задачи не используйте встроенные функции и функции из модуля math.
 
 def my_round(number, ndigits):
-    pass
+    result = number%(0.1**ndigits)
+    if result >= (0.5*(0.1**ndigits)):
+        result = (number - result + 0.1**ndigits)
+    else:
+        result = number - result
+
+    return result
+
 
 
 print(my_round(2.1234567, 5))
@@ -20,7 +27,19 @@ print(my_round(2.9999967, 5))
 # !!!P.S.: функция не должна НИЧЕГО print'ить
 
 def lucky_ticket(ticket_number):
-    pass
+
+    result = False
+
+    ticket_numbers = [int(digit) for digit in str(ticket_number)]
+
+    if len(ticket_numbers)%2 == 0:
+        start = sum(ticket_numbers[:(len(ticket_numbers)//2)])
+        end = sum(ticket_numbers[len(ticket_numbers)//2:])
+        if start == end:
+            result = True
+
+    return result
+
 
 
 print(lucky_ticket(123006))
