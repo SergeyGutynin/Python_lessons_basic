@@ -11,6 +11,10 @@ matrix = [[1, 0, 8],
 #                  [0, 4, 4],
 #                  [8, 1, 2]]
 
+
+matrix_rotate = list(map(list, zip(*matrix)))
+print(matrix_rotate)
+
 # Суть сложности hard: Решите задачу в одну строку
 
 # Задание-2:
@@ -38,6 +42,30 @@ number = """
 84580156166097919133875499200524063689912560717606
 05886116467109405077541002256983155200055935729725
 71636269561882670428252483600823257530420752963450"""
+
+number_list = list(number)
+number_list = list(filter(lambda a: a != '\n', number_list))
+
+result = 0
+start_position = 0
+
+for ind in range(len(number_list)-5):
+    var = 1
+    for x in range(5):
+        var *= int(number_list[ind+x])
+    if var > result:
+        result = var
+        start_position = ind
+
+print(f"Max multiply value: {result} Start position {start_position}")
+
+val = ''
+
+for x in range(start_position, start_position+5):
+    val += number_list[x]
+
+print(val)
+
 
 
 # Задание-3 (Ферзи):
