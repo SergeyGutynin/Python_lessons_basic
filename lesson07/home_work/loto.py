@@ -180,15 +180,18 @@ if __name__ == '__main__':
 
         value = 0
 
+        min_val = 1
+        max_val = 90
+
         while check_failed:
-            value = randint(1, 90)
+            value = randint(min_val, max_val)
             if value not in values:
                 check_failed = False
                 values.append(value)
 
-        print(f'Номер бочонка {value}.')
+        ostatok = max_val-len(values)
 
-
+        print(f'Номер бочонка: {value} (осталось {ostatok})')
 
         user_check = my_card.check_number(value)
         pc_check = pc_card.check_number(value)
