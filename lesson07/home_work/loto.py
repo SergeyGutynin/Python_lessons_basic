@@ -57,3 +57,82 @@
 модуль random: http://docs.python.org/3/library/random.html
 
 """
+
+from random import randint
+
+class Card():
+
+    settings = {"cols": 9,
+                "rows": 3,
+                "step": 10,
+                "digits": 5}
+    min_val = 1
+    max_val = 90
+
+    def __init__(self):
+        self.values = self.generate()
+        self.state = None
+        self.is_full = False
+
+    def generate(self):
+
+        values = []
+
+        for col_num in range(self.settings["cols"]):
+
+            start = col_num*self.settings["step"]
+            end = col_num*self.settings["step"]+self.settings["step"]-1
+
+            if start < self.min_val:
+                start = self.min_val
+
+            if end == self.max_val-1:
+                end = self.max_val
+
+            count = self.settings["rows"]
+
+            cols = []
+
+            while count:
+
+                val = randint(start, end)
+                if val not in cols:
+                    cols.append(val)
+                    count -= 1
+
+            values.append(cols)
+
+
+        result = list(map(list,zip(*values)))
+
+        for row in range(self.settings["rows"]):
+
+            count = self.settings["cols"] - self.settings["digits"]
+
+            remove_positions = []
+
+            while count:
+                position = randint(0, self.settings["cols"]-1)
+                if position not in remove_positions:
+                    remove_positions.append(position)
+                    count -=1
+
+            for ind in remove_positions:
+                result[row][ind] = '  '
+
+        print(result)
+
+        return result
+
+
+    def check_number(self, number):
+        pass
+
+    def print_state(self):
+        pass
+
+    def print_card(self):
+        pass
+
+if __name__ == '__main__':
+    card1 = Card()
