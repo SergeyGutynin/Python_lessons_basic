@@ -57,7 +57,7 @@
 модуль random: http://docs.python.org/3/library/random.html
 
 """
-
+import os
 from random import randint
 
 class Card():
@@ -69,10 +69,11 @@ class Card():
     min_val = 1
     max_val = 90
 
-    def __init__(self):
+    def __init__(self, name):
+        self.name = name
         self.values = self.generate()
-        self.state = None
-        self.is_full = False
+        self.state = self.values
+        self.closed_values = 0
 
     def generate(self):
 
@@ -120,19 +121,105 @@ class Card():
             for ind in remove_positions:
                 result[row][ind] = '  '
 
-        print(result)
+        self.state = result
+        self.closed_values = 0
 
         return result
 
 
     def check_number(self, number):
-        pass
 
-    def print_state(self):
-        pass
+        result = False
+
+        for ri, row in enumerate(self.state):
+            if number in row:
+                self.closed_values +=1
+                ci = self.state[ri].index(number)
+                self.state[ri][ci] = '--'
+                result = True
+        return result
+
+    def check_win(self):
+        result = False
+        if self.closed_values == self.settings['rows']*self.settings['digits']:
+            result = True
+        return result
 
     def print_card(self):
-        pass
+        self.print(self.values)
+
+    def print_state(self):
+        self.print(self.state)
+
+
+    def print(self, value):
+        out = f'-- {self.name} --\n'
+        for row in value:
+            for col in row:
+                out += f'{str(col):2} '
+            out += '\n'
+        out += '----\n'
+        print(out)
 
 if __name__ == '__main__':
-    card1 = Card()
+
+    my_card = Card('Ваша карточка')
+    pc_card = Card('Карточка компьютера')
+
+
+    finish = False
+    values = []
+
+    while not finish:
+
+        pc_card.print_state()
+        #print(pc_card.closed_values)
+        my_card.print_state()
+        #print(my_card.closed_values)
+        check_failed = True
+
+        value = 0
+
+        while check_failed:
+            value = randint(1, 90)
+            if value not in values:
+                check_failed = False
+                values.append(value)
+
+        print(f'Номер бочонка {value}.')
+
+
+
+        user_check = my_card.check_number(value)
+        pc_check = pc_card.check_number(value)
+
+        user_win = my_card.check_win()
+        pc_win = pc_card.check_win()
+
+        user_in = input('Зачеркнуть цифру? (y/n)').lower()
+
+
+        if user_in == 'y':
+            if user_check:
+                pass
+            else:
+                finish = True
+        elif user_in == 'n':
+            if user_check:
+                finish = True
+            else:
+                pass
+        else:
+            finish = True
+
+        if user_win:
+            print('User win')
+            finish = True
+
+        if pc_win:
+            print('PC win')
+            finish = True
+
+        if finish:
+            print (f'В игре выпадали следующие номера {values}')
+
